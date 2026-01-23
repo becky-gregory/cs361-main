@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Exercise</title>
+</head>
+<body>
+    <h1>Add New Exercise</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="/add_exercise" method="POST">
+        <input type="text" name="name" placeholder="Enter exercise name" maxlength="50" pattern="[A-Za-z\s-]+" title="Exercise name must contain only letters, spaces, and dashes" required>
+        <button type="submit">Add Exercise</button>
+    </form>
+    <p><a href="/exercises">← Back to Exercises</a></p>
+</body>
+</html>

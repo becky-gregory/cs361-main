@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercises Manager</title>
+</head>
+<body>
+    <h1>Exercises <a href="/add_exercise">+</a></h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% if exercises %}
+        <ul>
+        {% for exercise in exercises %}
+            <li>{{ exercise[1] }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <p><a href="/">← Back to Programs</a></p>
+</body>
+</html>
