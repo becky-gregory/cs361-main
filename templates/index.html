@@ -9,7 +9,7 @@
     {% if programs %}
         <ul>
         {% for program in programs %}
-            <li>{{ program[1] }}</li>
+            <li><a href="/view_program/{{ program[0] }}">{{ program[1] }}</a></li>
         {% endfor %}
         </ul>
     {% else %}

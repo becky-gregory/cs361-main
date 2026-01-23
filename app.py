@@ -14,6 +14,11 @@ def init_db():
     c.execute('''CREATE TABLE IF NOT EXISTS exercises
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                   name TEXT NOT NULL UNIQUE)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS workout_blocks
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  name TEXT NOT NULL,
+                  program_id INTEGER NOT NULL,
+                  FOREIGN KEY (program_id) REFERENCES programs(id))''')
     conn.commit()
     conn.close()
 
@@ -52,6 +57,29 @@ def add_exercise(name):
     conn = sqlite3.connect('programs.db')
     c = conn.cursor()
     c.execute('INSERT INTO exercises (name) VALUES (?)', (name.strip(),))
+    conn.commit()
+    conn.close()
+
+def get_program_by_id(program_id):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('SELECT id, name FROM programs WHERE id = ?', (program_id,))
+    program = c.fetchone()
+    conn.close()
+    return program
+
+def get_blocks_by_program(program_id):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('SELECT id, name FROM workout_blocks WHERE program_id = ? ORDER BY id ASC', (program_id,))
+    blocks = c.fetchall()
+    conn.close()
+    return blocks
+
+def add_workout_block(name, program_id):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('INSERT INTO workout_blocks (name, program_id) VALUES (?, ?)', (name.strip(), program_id))
     conn.commit()
     conn.close()
 
@@ -100,6 +128,33 @@ def add_exercise_route():
         return redirect(url_for('exercises'))
     else:
         return render_template('add_exercise.html')
+
+@app.route('/view_program/<int:program_id>')
+def view_program(program_id):
+    program = get_program_by_id(program_id)
+    if not program:
+        flash('Program not found.', 'error')
+        return redirect(url_for('index'))
+    blocks = get_blocks_by_program(program_id)
+    return render_template('view_program.html', program=program, blocks=blocks)
+
+@app.route('/add_block/<int:program_id>', methods=['GET', 'POST'])
+def add_block(program_id):
+    program = get_program_by_id(program_id)
+    if not program:
+        flash('Program not found.', 'error')
+        return redirect(url_for('index'))
+    
+    if request.method == 'POST':
+        block_name = request.form.get('name', '').strip()
+        if not block_name:
+            flash('Block name cannot be empty.', 'error')
+            return render_template('add_block.html', program=program)
+        
+        add_workout_block(block_name, program_id)
+        return redirect(url_for('view_program', program_id=program_id))
+    else:
+        return render_template('add_block.html', program=program)
 
 if __name__ == '__main__':
     init_db()

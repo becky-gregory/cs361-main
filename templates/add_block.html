@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Workout Block</title>
+</head>
+<body>
+    <h1>Add Workout Block to {{ program[1] }}</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="/add_block/{{ program[0] }}" method="POST">
+        <input type="text" name="name" placeholder="Enter block name" required>
+        <button type="submit">Add Block</button>
+    </form>
+    <p><a href="/view_program/{{ program[0] }}">← Back to Program</a></p>
+</body>
+</html>

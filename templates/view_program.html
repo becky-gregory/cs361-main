@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Program</title>
+</head>
+<body>
+    <h1>{{ program[1] }}</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% if blocks %}
+        <ul>
+        {% for block in blocks %}
+            <li>{{ block[1] }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    <p><a href="/add_block/{{ program[0] }}">Add Workout Block</a></p>
+    <p><a href="/">← Back to Programs</a></p>
+</body>
+</html>
