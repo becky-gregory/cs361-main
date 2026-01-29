@@ -85,8 +85,12 @@ def add_workout_block(name, program_id):
 
 @app.route('/')
 def index():
-    programs = get_all_programs()
-    return render_template('index.html', programs=programs)
+    return render_template('index.html')
+
+@app.route('/programs')
+def programs():
+    programs_list = get_all_programs()
+    return render_template('programs.html', programs=programs_list)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
@@ -94,7 +98,7 @@ def add():
         program_name = request.form.get('name', '').strip()
         if program_name:
             add_program(program_name)
-        return redirect(url_for('index'))
+        return redirect(url_for('programs'))
     else:
         return render_template('add_program.html')
 
@@ -134,7 +138,7 @@ def view_program(program_id):
     program = get_program_by_id(program_id)
     if not program:
         flash('Program not found.', 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('programs'))
     blocks = get_blocks_by_program(program_id)
     return render_template('view_program.html', program=program, blocks=blocks)
 
@@ -143,7 +147,7 @@ def add_block(program_id):
     program = get_program_by_id(program_id)
     if not program:
         flash('Program not found.', 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('programs'))
     
     if request.method == 'POST':
         block_name = request.form.get('name', '').strip()

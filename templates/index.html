@@ -2,18 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Programs Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Manager - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Programs <a href="/add">+</a></h1>
-    {% if programs %}
-        <ul>
-        {% for program in programs %}
-            <li><a href="/view_program/{{ program[0] }}">{{ program[1] }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No programs yet. <a href="/add">Add your first program</a>!</p>
-    {% endif %}
+<body class="flex flex-col items-center min-h-screen bg-gray-100 font-sans">
+    <div class="max-w-3xl w-full p-5 text-center">
+        <div class="bg-green-800 text-white py-10 px-5 rounded-lg mb-10 shadow-lg">
+            <h1 class="m-0 text-4xl drop-shadow-lg">Welcome to Workout Manager</h1>
+        </div>
+        
+        <div class="my-10">
+            <img src="{{ url_for('static', filename='dumbbell.png') }}" alt="Dumbbell" class="max-w-xs h-auto mx-auto">
+        </div>
+        
+        <p class="text-xl text-gray-700 my-8 italic">Build your strength, track your progress, achieve your goals</p>
+        
+        <div class="flex justify-center gap-8 mt-10 flex-wrap">
+            <a href="/programs" class="bg-green-700 text-white py-4 px-8 no-underline rounded-lg text-lg transition-all duration-300 shadow-md hover:bg-green-800 hover:-translate-y-0.5 hover:shadow-lg">View Programs</a>
+            <a href="/exercises" class="bg-green-700 text-white py-4 px-8 no-underline rounded-lg text-lg transition-all duration-300 shadow-md hover:bg-green-800 hover:-translate-y-0.5 hover:shadow-lg">View Exercises</a>
+        </div>
+    </div>
 </body>
 </html>
