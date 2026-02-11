@@ -2,23 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Exercise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Add New Exercise</h1>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    <form action="/add_exercise" method="POST">
-        <input type="text" name="name" placeholder="Enter exercise name" maxlength="50" pattern="[A-Za-z\s-]+" title="Exercise name must contain only letters, spaces, and dashes" required>
-        <button type="submit">Add Exercise</button>
-    </form>
-    <p><a href="/exercises">← Back to Exercises</a></p>
+<body class="flex flex-col items-center min-h-screen bg-gray-100 font-sans">
+    <div class="max-w-2xl w-full p-5">
+        <div class="bg-green-800 text-white py-6 px-5 rounded-lg mb-6 shadow-lg">
+            <h1 class="text-3xl font-bold">Add New Exercise</h1>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-6 w-full">
+                    <ul class="space-y-2">
+                        {% for category, message in messages %}
+                            <li class="bg-red-100 border-l-4 border-red-500 text-red-700 py-3 px-4 rounded">
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <form action="/add_exercise" method="POST" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-gray-700 font-medium mb-2">Exercise Name</label>
+                    <input 
+                        type="text" 
+                        name="name" 
+                        id="name"
+                        placeholder="Enter exercise name" 
+                        maxlength="50" 
+                        pattern="[A-Za-z\s-]+" 
+                        title="Exercise name must contain only letters, spaces, and dashes" 
+                        required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    >
+                </div>
+                <button 
+                    type="submit" 
+                    class="w-full bg-green-700 text-white py-3 px-6 rounded-lg hover:bg-green-800 transition-colors duration-300 shadow-md font-medium"
+                >
+                    Add Exercise
+                </button>
+            </form>
+        </div>
+        
+        <a href="/exercises" class="inline-block text-green-700 hover:text-green-800 font-medium transition-colors">
+            ← Back to Exercises
+        </a>
+    </div>
 </body>
 </html>

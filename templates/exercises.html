@@ -2,26 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercises Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Exercises <a href="/add_exercise">+</a></h1>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
+<body class="flex flex-col items-center min-h-screen bg-gray-100 font-sans">
+    <div class="max-w-3xl w-full p-5">
+        <div class="bg-green-800 text-white py-6 px-5 rounded-lg mb-6 shadow-lg">
+            <h1 class="text-3xl font-bold flex items-center justify-between">
+                <span>Exercises</span>
+                <a href="/add_exercise" class="text-3xl hover:text-green-200 transition-colors">+</a>
+            </h1>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-6">
+                    <ul class="space-y-2">
+                        {% for category, message in messages %}
+                            <li class="bg-red-100 border-l-4 border-red-500 text-red-700 py-3 px-4 rounded">
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% if exercises %}
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <ul class="space-y-3">
+                    {% for exercise in exercises %}
+                        <li class="bg-green-50 text-green-800 py-3 px-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                            {{ exercise[1] }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6 text-center">
+                <p class="text-gray-600">No exercises yet.</p>
+            </div>
         {% endif %}
-    {% endwith %}
-    {% if exercises %}
-        <ul>
-        {% for exercise in exercises %}
-            <li>{{ exercise[1] }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    <p><a href="/">← Back to Home</a></p>
+        
+        <a href="/" class="inline-block text-green-700 hover:text-green-800 font-medium transition-colors">
+            ← Back to Home
+        </a>
+    </div>
 </body>
 </html>

@@ -2,19 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programs Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Programs <a href="/add">+</a></h1>
-    {% if programs %}
-        <ul>
-        {% for program in programs %}
-            <li><a href="/view_program/{{ program[0] }}">{{ program[1] }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No programs yet. <a href="/add">Add your first program</a>!</p>
-    {% endif %}
-    <p><a href="/">← Back to Home</a></p>
+<body class="flex flex-col items-center min-h-screen bg-gray-100 font-sans">
+    <div class="max-w-3xl w-full p-5">
+        <div class="bg-green-800 text-white py-6 px-5 rounded-lg mb-6 shadow-lg">
+            <h1 class="text-3xl font-bold flex items-center justify-between">
+                <span>Programs</span>
+                <a href="/add" class="text-3xl hover:text-green-200 transition-colors">+</a>
+            </h1>
+        </div>
+        
+        {% if programs %}
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <ul class="space-y-3">
+                    {% for program in programs %}
+                        <li>
+                            <a href="/view_program/{{ program[0] }}" class="block bg-green-50 hover:bg-green-100 text-green-800 py-3 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+                                {{ program[1] }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6 text-center">
+                <p class="text-gray-600 mb-4">No programs yet.</p>
+                <a href="/add" class="inline-block bg-green-700 text-white py-2 px-6 rounded-lg hover:bg-green-800 transition-colors duration-300 shadow-md">
+                    Add your first program
+                </a>
+            </div>
+        {% endif %}
+        
+        <a href="/" class="inline-block text-green-700 hover:text-green-800 font-medium transition-colors">
+            ← Back to Home
+        </a>
+    </div>
 </body>
 </html>
