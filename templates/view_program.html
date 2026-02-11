@@ -7,6 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex flex-col items-center min-h-screen bg-gray-100 font-sans">
+    <nav class="w-full bg-green-800 shadow-lg mb-8">
+        <div class="max-w-6xl mx-auto px-5 py-4">
+            <div class="flex justify-center space-x-8">
+                <a href="/" class="text-white font-semibold hover:text-green-200 transition-colors">Home</a>
+                <a href="/programs" class="text-white font-semibold hover:text-green-200 transition-colors border-b-2 border-green-200">Programs</a>
+                <a href="/exercises" class="text-white font-semibold hover:text-green-200 transition-colors">Exercises</a>
+            </div>
+        </div>
+    </nav>
     <div class="max-w-3xl w-full p-5">
         <div class="bg-green-800 text-white py-6 px-5 rounded-lg mb-6 shadow-lg">
             <h1 class="text-3xl font-bold">{{ program[1] }}</h1>
@@ -31,7 +40,7 @@
                 <h2 class="text-xl font-semibold text-gray-700 mb-4">Workout Blocks</h2>
                 <ul class="space-y-3">
                     {% for block in blocks %}
-                        <li class="bg-green-50 text-green-800 py-3 px-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <li class="bg-green-50 text-green-800 py-3 px-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                             {{ block[1] }}
                         </li>
                     {% endfor %}
