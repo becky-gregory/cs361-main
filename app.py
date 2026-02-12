@@ -132,6 +132,10 @@ def update_workout_block(block_id, new_name):
 def index():
     return render_template('index.html')
 
+@app.route('/help')
+def help():
+    return render_template('help.html')
+
 @app.route('/programs')
 def programs():
     programs_list = get_all_programs()

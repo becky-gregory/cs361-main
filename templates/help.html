@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - Workout Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col items-center min-h-screen bg-gray-100 font-sans">
+    <nav class="w-full bg-green-800 shadow-lg mb-8">
+        <div class="max-w-6xl mx-auto px-5 py-4">
+            <div class="flex justify-center space-x-8">
+                <a href="/" class="text-white font-semibold hover:text-green-200 transition-colors">Home</a>
+                <a href="/programs" class="text-white font-semibold hover:text-green-200 transition-colors">Programs</a>
+                <a href="/exercises" class="text-white font-semibold hover:text-green-200 transition-colors">Exercises</a>
+                <a href="/help" class="text-white font-semibold hover:text-green-200 transition-colors border-b-2 border-green-200">Help</a>
+            </div>
+        </div>
+    </nav>
+    <div class="max-w-4xl w-full p-5">
+        <div class="bg-green-800 text-white py-6 px-5 rounded-lg mb-6 shadow-lg">
+            <h1 class="text-3xl font-bold">Help</h1>
+        </div>
+        
+        <div class="bg-green-50 rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-green-800 mb-4">Getting Started</h2>
+            <p class="text-gray-700 mb-4">
+                Welcome to Workout Manager! This application helps you organize your workout programs, exercises, and workout blocks.
+            </p>
+        </div>
+
+        <div class="bg-green-50 rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-green-800 mb-4">Programs</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">View Programs:</strong> Click on "Programs" in the navigation bar to see all your workout programs.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Add Program:</strong> Click the "+" button in the Programs page to create a new program.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Edit Program:</strong> Click the edit icon (pencil) next to any program to change its name.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Delete Program:</strong> Click the trash icon next to a program to remove it. This will also delete all associated workout blocks.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">View Program Details:</strong> Click on a program name to view its workout blocks.</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-green-50 rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-green-800 mb-4">Exercises</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">View Exercises:</strong> Click on "Exercises" in the navigation bar to see all available exercises.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Add Exercise:</strong> Click the "+" button in the Exercises page to add a new exercise.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Edit Exercise:</strong> Click the edit icon (pencil) next to any exercise to change its name.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Delete Exercise:</strong> Click the trash icon next to an exercise to remove it.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Exercise Rules:</strong> Exercise names must be 50 characters or less and can only contain letters, spaces, and dashes.</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-green-50 rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-green-800 mb-4">Workout Blocks</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Add Workout Block:</strong> When viewing a program, click "Add Workout Block" to create a new block.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Edit Block:</strong> Click the edit icon (pencil) next to any workout block to change its name.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Delete Block:</strong> Click the trash icon next to a workout block to remove it.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span><strong class="text-green-800">Remove Program:</strong> On the program detail page, click "Remove Program" to delete the entire program and all its blocks.</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-green-50 rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-green-800 mb-4">Tips</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span>Use descriptive names for your programs and exercises to keep them organized.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span>All delete actions require confirmation and cannot be undone.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span>You can edit names directly from the list pages without navigating away.</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-700 font-bold mr-2">•</span>
+                    <span>Use the navigation bar at the top to quickly move between sections.</span>
+                </li>
+            </ul>
+        </div>
+
+        <a href="/" class="inline-block text-green-700 hover:text-green-800 font-medium transition-colors">
+            ← Back to Home
+        </a>
+    </div>
+</body>
+</html>
