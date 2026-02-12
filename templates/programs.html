@@ -13,6 +13,7 @@
                 <a href="/" class="text-white font-semibold hover:text-green-200 transition-colors">Home</a>
                 <a href="/programs" class="text-white font-semibold hover:text-green-200 transition-colors border-b-2 border-green-200">Programs</a>
                 <a href="/exercises" class="text-white font-semibold hover:text-green-200 transition-colors">Exercises</a>
+                <a href="/help" class="text-white font-semibold hover:text-green-200 transition-colors">Help</a>
             </div>
         </div>
     </nav>
@@ -30,11 +31,11 @@
                     <ul class="space-y-2">
                         {% for category, message in messages %}
                             {% if category == 'success' %}
-                                <li class="bg-green-100 text-green-700 py-3 px-4 rounded">
+                                <li class="bg-green-100 border-l-4 border-green-500 text-green-700 py-3 px-4 rounded">
                                     {{ message }}
                                 </li>
                             {% else %}
-                                <li class="bg-red-100 text-red-700 py-3 px-4 rounded">
+                                <li class="bg-red-100 border-l-4 border-red-500 text-red-700 py-3 px-4 rounded">
                                     {{ message }}
                                 </li>
                             {% endif %}
