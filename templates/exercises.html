@@ -30,11 +30,11 @@
                     <ul class="space-y-2">
                         {% for category, message in messages %}
                             {% if category == 'success' %}
-                                <li class="bg-green-100 border-l-4 border-green-500 text-green-700 py-3 px-4 rounded">
+                                <li class="bg-green-100 text-green-700 py-3 px-4 rounded">
                                     {{ message }}
                                 </li>
                             {% else %}
-                                <li class="bg-red-100 border-l-4 border-red-500 text-red-700 py-3 px-4 rounded">
+                                <li class="bg-red-100 text-red-700 py-3 px-4 rounded">
                                     {{ message }}
                                 </li>
                             {% endif %}
@@ -52,6 +52,11 @@
                             <span class="flex-1 bg-green-50 text-green-800 py-3 px-4 rounded-lg shadow-sm">
                                 {{ exercise[1] }}
                             </span>
+                            <button type="button" onclick="showEditModal('{{ exercise[0] }}', '{{ exercise[1]|replace("'", "\\'") }}', 'exercise')" class="bg-green-700 hover:bg-green-800 text-white p-2 rounded-lg transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </button>
                             <form id="delete-form-{{ exercise[0] }}" action="/delete_exercise/{{ exercise[0] }}" method="POST" class="inline">
                                 <button type="button" onclick="showDeleteModal('{{ exercise[0] }}', 'Are you sure you want to delete this exercise? This action cannot be undone.')" class="bg-green-700 hover:bg-green-800 text-white p-2 rounded-lg transition-colors duration-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,6 +79,26 @@
         </a>
     </div>
 
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Edit Exercise</h3>
+                <form id="edit-form" method="POST" class="space-y-4">
+                    <input type="text" id="edit-name-input" name="name" maxlength="50" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                    <div class="flex justify-end gap-3">
+                        <button type="button" onclick="hideEditModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Delete Confirmation Modal -->
     <div id="delete-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
@@ -94,6 +119,31 @@
 
     <script>
         let currentFormId = null;
+        let currentEditType = null;
+        
+        function showEditModal(itemId, currentName, type) {
+            currentFormId = itemId;
+            currentEditType = type;
+            document.getElementById('edit-name-input').value = currentName;
+            
+            // Set form action based on type
+            const form = document.getElementById('edit-form');
+            if (type === 'program') {
+                form.action = '/edit_program/' + itemId;
+            } else if (type === 'exercise') {
+                form.action = '/edit_exercise/' + itemId;
+            } else if (type === 'block') {
+                form.action = '/edit_block/' + itemId;
+            }
+            
+            document.getElementById('edit-modal').classList.remove('hidden');
+        }
+        
+        function hideEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
+            currentFormId = null;
+            currentEditType = null;
+        }
         
         function showDeleteModal(formId, message) {
             currentFormId = formId;
@@ -112,7 +162,13 @@
             }
         });
         
-        // Close modal when clicking outside
+        // Close modals when clicking outside
+        document.getElementById('edit-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideEditModal();
+            }
+        });
+        
         document.getElementById('delete-modal').addEventListener('click', function(e) {
             if (e.target === this) {
                 hideDeleteModal();

@@ -107,6 +107,27 @@ def delete_workout_block(block_id):
     conn.commit()
     conn.close()
 
+def update_program(program_id, new_name):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('UPDATE programs SET name = ? WHERE id = ?', (new_name.strip(), program_id))
+    conn.commit()
+    conn.close()
+
+def update_exercise(exercise_id, new_name):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('UPDATE exercises SET name = ? WHERE id = ?', (new_name.strip(), exercise_id))
+    conn.commit()
+    conn.close()
+
+def update_workout_block(block_id, new_name):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('UPDATE workout_blocks SET name = ? WHERE id = ?', (new_name.strip(), block_id))
+    conn.commit()
+    conn.close()
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -209,6 +230,75 @@ def delete_block_route(block_id):
         program_id = result[0]
         delete_workout_block(block_id)
         flash('Workout block deleted successfully.', 'success')
+        return redirect(url_for('view_program', program_id=program_id))
+    else:
+        flash('Block not found.', 'error')
+        return redirect(url_for('programs'))
+
+@app.route('/edit_program/<int:program_id>', methods=['POST'])
+def edit_program_route(program_id):
+    new_name = request.form.get('name', '').strip()
+    if not new_name:
+        flash('Program name cannot be empty.', 'error')
+        return redirect(url_for('programs'))
+    
+    update_program(program_id, new_name)
+    flash('Program updated successfully.', 'success')
+    return redirect(url_for('programs'))
+
+@app.route('/edit_exercise/<int:exercise_id>', methods=['POST'])
+def edit_exercise_route(exercise_id):
+    new_name = request.form.get('name', '').strip()
+    
+    if not new_name:
+        flash('Exercise name cannot be empty.', 'error')
+        return redirect(url_for('exercises'))
+    
+    if len(new_name) > 50:
+        flash('Exercise name must be 50 characters or less.', 'error')
+        return redirect(url_for('exercises'))
+    
+    # Check for duplicates (excluding current exercise)
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('SELECT COUNT(*) FROM exercises WHERE LOWER(name) = LOWER(?) AND id != ?', (new_name, exercise_id))
+    count = c.fetchone()[0]
+    conn.close()
+    
+    if count > 0:
+        flash('An exercise with this name already exists.', 'error')
+        return redirect(url_for('exercises'))
+    
+    update_exercise(exercise_id, new_name)
+    flash('Exercise updated successfully.', 'success')
+    return redirect(url_for('exercises'))
+
+@app.route('/edit_block/<int:block_id>', methods=['POST'])
+def edit_block_route(block_id):
+    new_name = request.form.get('name', '').strip()
+    if not new_name:
+        flash('Block name cannot be empty.', 'error')
+        # Get program_id to redirect back
+        conn = sqlite3.connect('programs.db')
+        c = conn.cursor()
+        c.execute('SELECT program_id FROM workout_blocks WHERE id = ?', (block_id,))
+        result = c.fetchone()
+        conn.close()
+        if result:
+            return redirect(url_for('view_program', program_id=result[0]))
+        return redirect(url_for('programs'))
+    
+    # Get program_id before updating to redirect back
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('SELECT program_id FROM workout_blocks WHERE id = ?', (block_id,))
+    result = c.fetchone()
+    conn.close()
+    
+    if result:
+        program_id = result[0]
+        update_workout_block(block_id, new_name)
+        flash('Workout block updated successfully.', 'success')
         return redirect(url_for('view_program', program_id=program_id))
     else:
         flash('Block not found.', 'error')
