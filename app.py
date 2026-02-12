@@ -83,6 +83,30 @@ def add_workout_block(name, program_id):
     conn.commit()
     conn.close()
 
+def delete_program(program_id):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    # First delete all workout blocks associated with this program
+    c.execute('DELETE FROM workout_blocks WHERE program_id = ?', (program_id,))
+    # Then delete the program
+    c.execute('DELETE FROM programs WHERE id = ?', (program_id,))
+    conn.commit()
+    conn.close()
+
+def delete_exercise(exercise_id):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM exercises WHERE id = ?', (exercise_id,))
+    conn.commit()
+    conn.close()
+
+def delete_workout_block(block_id):
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM workout_blocks WHERE id = ?', (block_id,))
+    conn.commit()
+    conn.close()
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -159,6 +183,36 @@ def add_block(program_id):
         return redirect(url_for('view_program', program_id=program_id))
     else:
         return render_template('add_block.html', program=program)
+
+@app.route('/delete_program/<int:program_id>', methods=['POST'])
+def delete_program_route(program_id):
+    delete_program(program_id)
+    flash('Program deleted successfully.', 'success')
+    return redirect(url_for('programs'))
+
+@app.route('/delete_exercise/<int:exercise_id>', methods=['POST'])
+def delete_exercise_route(exercise_id):
+    delete_exercise(exercise_id)
+    flash('Exercise deleted successfully.', 'success')
+    return redirect(url_for('exercises'))
+
+@app.route('/delete_block/<int:block_id>', methods=['POST'])
+def delete_block_route(block_id):
+    # Get program_id before deleting to redirect back
+    conn = sqlite3.connect('programs.db')
+    c = conn.cursor()
+    c.execute('SELECT program_id FROM workout_blocks WHERE id = ?', (block_id,))
+    result = c.fetchone()
+    conn.close()
+    
+    if result:
+        program_id = result[0]
+        delete_workout_block(block_id)
+        flash('Workout block deleted successfully.', 'success')
+        return redirect(url_for('view_program', program_id=program_id))
+    else:
+        flash('Block not found.', 'error')
+        return redirect(url_for('programs'))
 
 if __name__ == '__main__':
     init_db()
